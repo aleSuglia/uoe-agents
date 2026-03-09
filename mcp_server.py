@@ -15,5 +15,14 @@ def add(a: int, b: int) -> int:
     return a + b
 
 
+@app.tool()
+def python_version() -> str:
+    """Return the current Python version."""
+    import sys
+
+    print(f"Received request for Python version. Current version is {sys.version}")
+    return f"My Python version is {sys.version}"
+
+
 if __name__ == "__main__":
     app.run(transport="streamable-http")

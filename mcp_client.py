@@ -20,11 +20,8 @@ agent = Agent(ollama_model, toolsets=[server])
 
 def main():
     """Run a sample query through the agent and print the response."""
-    result = agent.run_sync(
-        "What is 7 plus 9? Output the tool calls and the final answer."
-    )
+    result = agent.run_sync("What is 7 plus 9?")
     print(result.output)
-    # > The answer is 12.
 
 
 if __name__ == "__main__":
