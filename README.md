@@ -150,5 +150,38 @@ The client will:
 	- Runs three specialist agents concurrently, then synthesises their reports.
 	- Useful for reducing latency while broadening analysis coverage.
 
+- `guardrailed_pipeline.py`
+	- Demonstrates a combined pipeline + guardrail pattern.
+	- Processes support tickets through staged validation, classification, drafting, and compliance checks.
+	- Produces a final decision (`approved`, `escalated`, or `rejected`) with a full guardrail audit trail.
+
 - `LICENSE`
 	- Repository license terms.
+
+## Guardrailed Pipeline Flow
+
+```mermaid
+flowchart TD
+	A[SupportTicket input] --> B[Stage 1: Intake guardrails]
+	B --> C{Intake passes?}
+	C -- No --> R1[REJECTED + audit trail]
+	C -- Yes --> D[Stage 2: Classification agent]
+	D --> E[Classification guardrails]
+	E --> F{Category allowed?}
+	F -- No --> R2[REJECTED + classification + audit trail]
+	F -- Yes --> G{Confidence >= threshold?}
+	G -- No --> R3[ESCALATED + classification + audit trail]
+	G -- Yes --> H[Stage 3: Draft agent]
+	H --> I[Draft guardrails]
+	I --> J{Draft passes?}
+	J -- No --> R4[REJECTED + draft + audit trail]
+	J -- Yes --> K[Stage 4: Compliance guardrail]
+	K --> L{Compliance passes?}
+	L -- No --> R5[REJECTED + draft + audit trail]
+	L -- Yes --> R6[APPROVED + draft + classification + audit trail]
+```
+
+Legend:
+- `REJECTED`: hard guardrail failure; do not send auto-response.
+- `ESCALATED`: uncertain classification; route to human support queue.
+- `APPROVED`: all stage guardrails passed; response is safe to send.
