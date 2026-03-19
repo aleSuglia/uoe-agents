@@ -140,5 +140,15 @@ The client will:
 	- Connects to Ollama through OpenAI-compatible API.
 	- Sends a sample prompt and prints the model output.
 
+- `prompt_chaining.py`
+	- Demonstrates the prompt chaining pattern.
+	- Uses three sequential agents: research -> draft -> polish.
+	- Shows structured handoff with typed intermediate outputs.
+
+- `parallelisation.py`
+	- Demonstrates the parallelisation pattern.
+	- Runs three specialist agents concurrently, then synthesises their reports.
+	- Useful for reducing latency while broadening analysis coverage.
+
 - `LICENSE`
 	- Repository license terms.
